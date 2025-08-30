@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Blockchain Strategy: The 2025 Competitive Edge</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+        .font-title { font-family: 'Inter', sans-serif; }
+        .font-mono { font-family: 'Roboto Mono', monospace; }
+
+        .hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+            transform: translateX(-50%) translateY(-50%);
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            background: linear-gradient(90deg, rgba(10, 10, 10, 0.95) 0%, rgba(10, 10, 10, 0.6) 50%, rgba(10, 10, 10, 0.2) 100%);
+        }
+        
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #00f2fe, #4facfe);
+            width: 0%;
+            z-index: 100;
+            transition: width 0.1s linear;
+        }
+
+        .content-section h2 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 900;
+            font-size: 2.5rem;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            background: -webkit-linear-gradient(45deg, #00f2fe, #4facfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .content-section p {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: #b0b0b0;
+        }
+        
+        .play-audio-btn {
+            background-color: rgba(0, 242, 254, 0.1);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            color: #00f2fe;
+            transition: all 0.3s ease;
+        }
+        .play-audio-btn:hover {
+            background-color: rgba(0, 242, 254, 0.2);
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.5);
+        }
+        .play-audio-btn.playing {
+            background-color: #00f2fe;
+            color: #0a0a0a;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+            opacity: 0.2;
+        }
+
+        #music-modal {
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Quiz Result Styles */
+        .result-excellent {
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+            border: 2px solid transparent;
+            border-image: linear-gradient(45deg, #FFD700, #ff5733, #00f2fe) 1;
+        }
+        .result-good {
+            border: 2px solid #00f2fe;
+        }
+        .result-poor {
+            border: 2px solid #facc15;
+        }
+
+        .confetti {
+            width: 15px; height: 15px; background-color: #f2d74e; position: absolute;
+            left: 50%; animation: confetti 5s ease-in-out -2s infinite; transform-origin: left top;
+        }
+        .confetti:nth-child(2) { background-color: #95c3de; animation-delay: -3s; }
+        .confetti:nth-child(3) { background-color: #ff5733; animation-delay: -5s; }
+        .confetti:nth-child(4) { background-color: #00f2fe; animation-delay: -1.5s; }
+        .confetti:nth-child(5) { background-color: #4facfe; animation-delay: -4s; }
+        .confetti:nth-child(6) { background-color: #f2d74e; animation-delay: -6s; }
+        .confetti:nth-child(7) { background-color: #95c3de; animation-delay: -2.5s; }
+        .confetti:nth-child(8) { background-color: #ff5733; animation-delay: -3.5s; }
+        .confetti:nth-child(9) { background-color: #00f2fe; animation-delay: -0.5s; }
+        .confetti:nth-child(10) { background-color: #4facfe; animation-delay: -4.5s; }
+
+        @keyframes confetti {
+            0% { transform: rotateZ(15deg) rotateY(0deg) translate(0, 0); opacity: 1;}
+            25% { transform: rotateZ(5deg) rotateY(360deg) translate(-5vw, 20vh); opacity: 1;}
+            50% { transform: rotateZ(15deg) rotateY(720deg) translate(5vw, 60vh); opacity: 1;}
+            75% { transform: rotateZ(5deg) rotateY(1080deg) translate(-10vw, 80vh); opacity: 0.8;}
+            100% { transform: rotateZ(15deg) rotateY(1440deg) translate(10vw, 110vh); opacity: 0;}
+        }
+
+        /* New animations for the modal */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes pulseGlow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 35px rgba(0, 255, 255, 0.8);
+                transform: scale(1.05);
+            }
+        }
+        .modal-animate-h2 { animation: fadeInUp 0.8s ease-out forwards; }
+        .modal-animate-p { animation: fadeInUp 0.8s ease-out 0.2s forwards; opacity: 0; }
+        .modal-animate-button { animation: fadeInUp 0.8s ease-out 0.4s forwards, pulseGlow 2.5s infinite 1s; opacity: 0; }
+
+    </style>
+</head>
+<body class="relative">
+
+    <div id="progress-bar"></div>
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Background Music & Modal -->
+    <audio id="bg-music" loop src="https://res.cloudinary.com/dad8v7kqc/video/upload/v1756501773/yt1z.net_-_BLACKPINK_-_Pink_Venom_DANCE_PRACTICE_VIDEO_320_KBps_vdozgu.mp3"></audio>
+    <div id="music-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="text-center">
+            <h2 class="font-title text-3xl sm:text-4xl font-bold text-white mb-4 modal-animate-h2">Welcome. I'm Touhid.</h2>
+            <p class="text-cyan-300 font-mono text-base sm:text-lg mb-8 max-w-2xl modal-animate-p">This is a showcase of my expertise in strategic writing and immersive web development. Enjoy the experience.</p>
+            <button id="start-btn" class="font-bold text-xl px-12 py-4 rounded-lg border-2 border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black transition-all duration-300 modal-animate-button">
+                Start
+            </button>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="relative h-screen w-full flex items-center overflow-hidden">
+        <video id="hero-video" autoplay muted loop playsinline class="hero-video">
+            <source src="https://res.cloudinary.com/dad8v7kqc/video/upload/v1756500762/London_Blockchain_Conference_Blockchain_and_Crypto_Event_xrn6gz.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="hero-overlay absolute inset-0"></div>
+        <div class="relative z-10 w-full max-w-6xl mx-auto px-6">
+            <div class="max-w-xl">
+                <h1 class="font-title font-black text-4xl sm:text-5xl md:text-6xl text-white mb-6 tracking-tight leading-tight">
+                    Why Your Enterprise <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">Blockchain Strategy</span> Will Make or Break Your Competitive Edge in 2025
+                </h1>
+                <p class="font-mono text-cyan-300 text-base sm:text-lg">
+                    The revolution isn't coming—it's here. Will your organization lead or be transformed?
+                </p>
+            </div>
+        </div>
+        <button id="hero-audio-btn" class="absolute bottom-8 right-8 z-20 p-3 rounded-full bg-black/50 text-white/70 hover:bg-black/70 hover:text-white transition">
+            <svg id="mic-off-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                 <line x1="1" y1="1" x2="23" y2="23" />
+            </svg>
+            <svg id="mic-on-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+            </svg>
+        </button>
+    </header>
+
+    <!-- Main Content -->
+    <main class="w-full max-w-6xl mx-auto px-6 py-20 sm:py-32 space-y-24">
+        
+        <div class="content-section" data-speech-content>
+            <p class="text-2xl font-bold text-gray-200 leading-relaxed border-l-4 border-cyan-400 pl-6">The boardroom conversations have shifted. While executives spent 2023 debating remote work policies, blockchain technology, cryptocurrency adoption, and asset tokenization quietly evolved from experimental side projects into mission-critical business infrastructure. Today, we're witnessing a fundamental transformation that's rewriting the rules of trust, ownership, and value creation across global markets—and the window for strategic positioning is rapidly closing.</p>
+        </div>
+        
+        <div class="my-16 md:my-24">
+            <div class="rounded-2xl overflow-hidden shadow-2xl shadow-cyan-500/10">
+                <img src="https://res.cloudinary.com/dad8v7kqc/image/upload/v1756499618/futuristic-blockchain-network-with-glowing-digital-nodes-representing-secure-data-connections_1294860-1016_a1yubz.avif" alt="Futuristic blockchain network" class="w-full h-auto object-cover">
+            </div>
+            <p class="text-center text-sm italic text-gray-400 mt-4 font-mono">Digital nodes forming a secure, decentralized network.</p>
+        </div>
+
+        <div class="content-section" data-speech-content>
+            <div class="flex items-center gap-4 mb-4">
+                <h2>The $1.76 Trillion Opportunity That Most Executives Are Missing</h2>
+                <button class="play-audio-btn p-3 rounded-full flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                </button>
+            </div>
+            <p>According to PwC's analysis, blockchain could contribute $1.76 trillion to global GDP by 2030. But this isn't another technology trend to monitor from a distance. The Web3 market stands at $3.47 billion in 2025 and is projected to reach $41.45 billion by 2030—a staggering 45.15% compound annual growth rate that represents one of the largest technology-driven economic opportunities in modern history.</p>
+            <p>The numbers reveal a story of institutional transformation, not speculative investment. Financial institutions alone have invested $552 million in blockchain pilot projects, while approximately 90% of US and European banks are actively exploring blockchain's potential. This represents a massive institutional shift from skepticism to strategic implementation.</p>
+        </div>
+
+        <div class="my-16 md:my-24">
+            <div class="rounded-2xl overflow-hidden shadow-2xl shadow-cyan-500/10">
+                 <img src="https://res.cloudinary.com/dad8v7kqc/image/upload/v1756499618/Cryptocurrency--Exploring-the-Future-of-Digital-Payments-update--The-Adoption-of-Cryptocurrency-by-Businesses_bholuv.webp" alt="Cryptocurrency adoption by businesses" class="w-full h-auto object-cover">
+            </div>
+            <p class="text-center text-sm italic text-gray-400 mt-4 font-mono">The growing adoption of cryptocurrency is reshaping the future of digital payments.</p>
+        </div>
+
+        <div class="content-section" data-speech-content>
+            <div class="flex items-center gap-4 mb-4">
+                <h2>Beyond Bitcoin: How Fortune 500 Companies Are Building Competitive Moats</h2>
+                <button class="play-audio-btn p-3 rounded-full flex-shrink-0">
+                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                </button>
+            </div>
+            <p>The blockchain narrative has fundamentally changed. Gone are the days when blockchain was synonymous with cryptocurrency speculation. Today's enterprise blockchain ecosystem represents sophisticated technological infrastructure valued at $15.57 billion in 2023 and projected to grow at an extraordinary 87.7% CAGR through 2030.</p>
+            <p>Forward-thinking organizations are leveraging five revolutionary trends to create sustainable competitive advantages:</p>
+            
+            <h3 class="text-2xl font-bold text-cyan-300 mt-8 mb-4">1. Modular Blockchain Architectures: Customization at Enterprise Scale</h3>
+            <p>The era of one-size-fits-all blockchain solutions has ended. Modular blockchains decouple core functions such as consensus, execution, and data availability, enabling organizations to create customizable networks tailored to specific business requirements.</p>
+            <p>Major developments reshaping the landscape include Celestia's launch as the first modular data availability network, Polygon 2.0's restructured framework integrating zero-knowledge technology, and EigenLayer's shared security layer for modular services. This modular approach allows enterprises to optimize blockchain infrastructure for speed, privacy, compliance, or cost efficiency—dramatically reducing infrastructure costs and time-to-market.</p>
+
+            <h3 class="text-2xl font-bold text-cyan-300 mt-8 mb-4">2. Zero-Knowledge Proofs: Privacy Meets Scalability</h3>
+            <p>Zero-knowledge proofs represent perhaps the most significant breakthrough in blockchain privacy and efficiency. These cryptographic protocols enable one party to prove information without revealing the underlying data, simultaneously boosting privacy and enabling faster, lighter transactions.</p>
+            <p>Real-world implementations demonstrate enterprise-scale capability. Visa tested zero-knowledge-based auto-payments for recurring Ethereum transfers without exposing private data. Estonia piloted a zero-knowledge proof-based voting system, allowing citizens to vote remotely while maintaining full verifiability and privacy. These implementations prove that zero-knowledge proofs enable privacy, efficiency, and regulatory compliance at scale across government and enterprise applications.</p>
+            
+            <div class="my-16 md:my-24">
+                <div class="rounded-2xl overflow-hidden shadow-2xl shadow-cyan-500/10">
+                    <img src="https://res.cloudinary.com/dad8v7kqc/image/upload/v1756499618/tokenization-future-in-numbers_xjo1ks.webp" alt="Tokenization future in numbers" class="w-full h-auto object-cover">
+                </div>
+                <p class="text-center text-sm italic text-gray-400 mt-4 font-mono">Tokenization unlocks the value of real-world assets on the blockchain.</p>
+            </div>
+
+            <h3 class="text-2xl font-bold text-cyan-300 mt-8 mb-4">3. Real-World Asset Tokenization: Unlocking Trillions in Value</h3>
+            <p>Tokenization represents the process of converting physical or financial assets into blockchain-based tokens, enhancing liquidity, improving transparency, and enabling fractional ownership. The market developments signal institutional confidence in tokenization as operational infrastructure, not experimental technology.</p>
+            <p>BlackRock's BUIDL Fund raised over $240 million on Ethereum by tokenizing US treasuries. HSBC launched tokenized gold trading via blockchain for 24/7 real-time settlement. Hong Kong issued tokenized green bonds using blockchain for enhanced transparency. These developments demonstrate how major financial institutions are actively deploying tokenized solutions to improve operational efficiency and create new investment products.</p>
+            
+            <h3 class="text-2xl font-bold text-cyan-300 mt-8 mb-4">4. Enterprise Digital Identity Revolution</h3>
+            <p>Enterprise demand for secure, compliant identity solutions is driving massive investment in blockchain-based digital identity systems. The EU's EBSI program supports electronic identity and academic credential verification across member states. Polygon ID offers self-sovereign identity infrastructure using zero-knowledge proofs for private credentials.</p>
+             <p>These decentralized identity solutions give users control over personal data while enabling secure compliance with regulatory requirements—a critical capability as data privacy regulations proliferate globally.</p>
+
+            <h3 class="text-2xl font-bold text-cyan-300 mt-8 mb-4">5. AI-Blockchain Infrastructure Convergence</h3>
+            <p>As artificial intelligence becomes increasingly powerful, questions of data sourcing, model transparency, and compute ownership are rising. Blockchain anchors trust by tracking data provenance, decentralizing compute, and verifying agent behavior.</p>
+            <p>Ocean Protocol enables secure, decentralized data sharing and monetization for AI training. Bittensor built a blockchain network where AI models collaborate and compete for tokens. This convergence addresses critical AI challenges around data integrity, computational transparency, and economic incentives for model improvement.</p>
+        </div>
+
+        <div class="content-section" data-speech-content>
+            <div class="flex items-center gap-4 mb-4">
+                <h2>The Corporate Treasury Revolution: From Speculation to Strategic Infrastructure</h2>
+                 <button class="play-audio-btn p-3 rounded-full flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                </button>
+            </div>
+            <p>The corporate cryptocurrency landscape has transformed dramatically. In Q1 2025, startups in the crypto and blockchain space raised $3.8 billion across 220 deals, more than doubling Q4 2024 investments. This funding surge reflects investor confidence in blockchain's transition from experimental technology to business-critical infrastructure.</p>
+            <p>Cross-border payment infrastructure represents the most immediate operational impact. Traditional international payments face fundamental challenges: high fees, slow settlement times, and complex correspondent banking relationships. RippleNet connects over 300 financial institutions across 45+ countries, enabling instant settlements. JP Morgan's Onyx platform has processed over $300 billion in transactions, demonstrating enterprise-scale capability.</p>
+            <p>The efficiency gains are quantifiable and substantial. Blockchain technology can reduce remittance costs by up to 60%. Cross-border payment settlement times have reduced from 3-5 business days to seconds through automated smart contract execution.</p>
+        </div>
+
+        <div class="content-section" data-speech-content>
+            <div class="flex items-center gap-4 mb-4">
+                <h2>Real Estate Tokenization: The $4 Trillion Market Transformation</h2>
+                <button class="play-audio-btn p-3 rounded-full flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                </button>
+            </div>
+            <p>Real estate tokenization represents perhaps the most significant disruption to traditional investment markets in decades. The Deloitte Center for Financial Services predicts that $4 trillion of real estate will be tokenized by 2035, increasing from less than $0.3 trillion today.</p>
+            <p>The real estate tokenization market was valued at $3.5 billion in 2024 and is projected to reach $19.4 billion by 2033. However, broader projections suggest even more dramatic growth: by 2030, the global market for tokenized real estate will reach up to $3 trillion and represent 15% of real estate assets under management.</p>
+            <p>Professional investors are rapidly increasing their allocation to tokenized real estate assets. The allocation of tokenized assets in real estate portfolios is expected to grow from 1.3% in 2023 to 6.0% by 2027, reflecting increasing confidence in the technology and regulatory framework.</p>
+            <p>Large-scale tokenization initiatives demonstrate institutional confidence. T-RIZE Group signed a $300 million deal to tokenize Project Champfleury, a 960-unit residential development in Canada. An India-based investor unveiled a $1 billion fund integrating tokenized equity and debt for global data center property investments.</p>
+        </div>
+
+        <!-- Data Visualization Chart -->
+        <div class="my-16 md:my-24">
+             <div class="bg-gray-900/50 p-6 rounded-2xl border border-gray-700 shadow-2xl shadow-cyan-500/10">
+                 <h3 class="text-xl font-bold text-white text-center mb-4">Real Estate Tokenization Market Growth (in Billions USD)</h3>
+                 <canvas id="realEstateChart"></canvas>
+            </div>
+            <p class="text-center text-sm italic text-gray-400 mt-4 font-mono">Visualizing the projected market growth of real estate tokenization.</p>
+        </div>
+
+        <div class="content-section" data-speech-content>
+            <div class="flex items-center gap-4 mb-4">
+                <h2>Industry-Specific Transformation: Where Smart Money is Moving</h2>
+                <button class="play-audio-btn p-3 rounded-full flex-shrink-0">
+                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                </button>
+            </div>
+             <div class="my-16 md:my-24">
+                <div class="rounded-2xl overflow-hidden shadow-2xl shadow-cyan-500/10">
+                    <img src="https://res.cloudinary.com/dad8v7kqc/image/upload/v1756499618/blockchain-market-by-end-use-main_eyimks.webp" alt="Blockchain market by end use" class="w-full h-auto object-cover">
+                </div>
+                <p class="text-center text-sm italic text-gray-400 mt-4 font-mono">Blockchain's market impact spans across numerous industries, led by finance.</p>
+            </div>
+            <h3 class="text-2xl font-bold text-cyan-300 mt-8 mb-4">Financial Services: The Foundation Sector</h3>
+            <p>Financial services potentially claim 30-35% of total blockchain market revenue. This dominance reflects blockchain's natural alignment with financial infrastructure requirements for trust, transparency, and immutable record-keeping.</p>
+            <p>Central Bank Digital Currencies represent a fundamental shift. China's Digital Yuan runs advanced pilot programs across major cities. The EU's Digital Euro undergoes comprehensive testing phases with commercial banks. Multiple developing nations explore blockchain-based alternatives to physical cash.</p>
+
+            <h3 class="text-2xl font-bold text-cyan-300 mt-8 mb-4">Healthcare: Security Meets Efficiency</h3>
+            <p>The blockchain healthcare market is projected to reach $214.9 billion by 2030, growing at an extraordinary 63.3% compound annual growth rate. Healthcare organizations can achieve near-zero billing fraud and bulletproof drug supply tracing through immutable record-keeping.</p>
+            <p>Traditional healthcare claims processing involves multiple steps and often takes several weeks to complete. Blockchain automation can reduce this timeline from weeks to minutes while ensuring accuracy and preventing fraud.</p>
+
+            <h3 class="text-2xl font-bold text-cyan-300 mt-8 mb-4">Supply Chain Management: Transparency Revolution</h3>
+            <p>Walmart uses blockchain to track mangoes from farm to shelf in 2.2 seconds, down from seven days pre-blockchain. This dramatic improvement in traceability enables rapid response to food safety issues and provides consumers with detailed product provenance information.</p>
+            <p>Ford leverages blockchain to guarantee ethical sourcing of raw materials like cobalt, addressing environmental and human rights issues through end-to-end visibility in global mining and logistics.</p>
+        </div>
+
+        <!-- Embedded Video -->
+        <div class="my-16 md:my-24">
+            <div class="rounded-2xl overflow-hidden shadow-2xl shadow-cyan-500/10">
+                <div class="relative w-full" style="padding-top: 56.25%;"> <!-- 16:9 Aspect Ratio -->
+                    <iframe id="youtube-player" class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/PDXfAmlsCyQ?enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+            <p class="text-center text-sm italic text-gray-400 mt-4 font-mono">Visualizing the core concepts and potential of blockchain technology.</p>
+        </div>
+
+        <div class="content-section" data-speech-content>
+            <div class="flex items-center gap-4 mb-4">
+                 <h2>The Strategic Imperative: Lead or Be Led</h2>
+                <button class="play-audio-btn p-3 rounded-full flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                </button>
+            </div>
+            <p>Organizations that understand and implement blockchain, cryptocurrency, and tokenization solutions today are building competitive advantages for tomorrow's digital economy. The question is no longer whether these technologies will reshape industries, but how quickly businesses can adapt to leverage their transformative potential.</p>
+            <p>The transformation timeline is accelerating. Blockchain startups raised $3.8 billion in Q1 2025 across 220 deals. The Web3 market is projected to grow from $3.47 billion in 2025 to $41.45 billion by 2030. Real estate tokenization is expected to reach $4 trillion by 2035.</p>
+            <p>These aren't speculative projections—they're measurable transformations already underway across global markets. The value will be captured by enterprises bold enough to embrace this technological revolution.</p>
+        </div>
+        
+        <div class="content-section" data-speech-content>
+            <div class="flex items-center gap-4 mb-4">
+                <h2>The Implementation Framework: Strategic Positioning for Market Leadership</h2>
+                <button class="play-audio-btn p-3 rounded-full flex-shrink-0">
+                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                </button>
+            </div>
+            <p>Successful enterprise blockchain adoption typically follows a phased approach: pilot projects to demonstrate value and build internal expertise, use case expansion scaling successful pilots to additional business processes, platform integration connecting blockchain solutions with core enterprise systems, ecosystem participation joining industry blockchain networks, and innovation leadership developing proprietary blockchain capabilities.</p>
+            <p>From Walmart tracking mangoes in 2.2 seconds to BlackRock tokenizing $240 million in US treasuries, from Estonia's blockchain-based voting systems to RippleNet's 300+ financial institution network, the future of business is being written in code, secured by cryptography, and verified by consensus.</p>
+            <p>The blockchain revolution represents the largest opportunity for business model innovation since the internet itself. The enterprises that master blockchain, cryptocurrency, and tokenization today will define the business landscape of tomorrow.</p>
+            <p>The revolution isn't coming—it's here. The only remaining question is whether your organization will lead this transformation or be transformed by it.</p>
+        </div>
+
+        <!-- Interactive Quiz -->
+        <div id="quiz-wrapper" class="bg-gray-900/50 p-8 rounded-2xl border border-gray-700">
+            <div id="quiz-container">
+                <!-- Questions will be dynamically generated here by JavaScript -->
+            </div>
+            <div id="quiz-result-container" class="hidden text-center">
+                <!-- Result will be shown here by JavaScript -->
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative py-20 bg-cover bg-center" style="background: url('https://res.cloudinary.com/dad8v7kqc/image/upload/v1756502133/analytics-3088958_voqfdn.jpg') no-repeat center center; background-size: cover;">
+        <div class="absolute inset-0 bg-black/80"></div>
+        <div class="relative max-w-6xl mx-auto text-center px-6">
+            <h2 class="font-title font-black text-4xl text-white mb-4">Ready to build your competitive edge?</h2>
+            <p class="text-gray-300 mb-8">Let's transform your vision into high-converting content and impactful business documents that drive results.</p>
+            <a href="#" class="inline-block bg-gradient-to-r from-cyan-400 to-blue-500 text-white font-bold px-8 py-4 rounded-lg shadow-lg hover:scale-105 transition-transform">Send a message today. Let's win together.</a>
+        </div>
+    </footer>
+    
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- General Setup ---
+            const bgMusic = document.getElementById('bg-music');
+            const musicModal = document.getElementById('music-modal');
+            const startBtn = document.getElementById('start-btn');
+            const heroVideo = document.getElementById('hero-video');
+            const heroAudioBtn = document.getElementById('hero-audio-btn');
+            const micOnIcon = document.getElementById('mic-on-icon');
+            const micOffIcon = document.getElementById('mic-off-icon');
+
+            // --- Music Modal & Autoplay Handling ---
+            startBtn.addEventListener('click', () => {
+                bgMusic.volume = 0.1;
+                bgMusic.play().catch(e => console.error("Autoplay was prevented:", e));
+                musicModal.style.display = 'none';
+            });
+
+            // --- Reading Progress Bar ---
+            const progressBar = document.getElementById('progress-bar');
+            window.addEventListener('scroll', () => {
+                const scrollTop = document.documentElement.scrollTop;
+                const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrollPercent = (scrollTop / scrollHeight) * 100;
+                progressBar.style.width = scrollPercent + '%';
+            });
+            
+            // --- Audio Playback, Ducking, and Controls ---
+            const playButtons = document.querySelectorAll('.play-audio-btn');
+            const synth = window.speechSynthesis;
+            let currentUtterance = null;
+            let currentlyPlayingButton = null;
+            let youtubePlayer;
+
+            window.onYouTubeIframeAPIReady = function() {
+                youtubePlayer = new YT.Player('youtube-player', {
+                    events: {
+                        'onStateChange': onPlayerStateChange
+                    }
+                });
+            }
+
+            function onPlayerStateChange(event) {
+                // If video is playing
+                if (event.data == YT.PlayerState.PLAYING) {
+                    heroVideo.muted = true;
+                    updateHeroMicIcon();
+                    synth.cancel();
+                    fadeAudio(bgMusic, 0.02);
+                }
+                // If video is paused or ended
+                else if (event.data == YT.PlayerState.PAUSED || event.data == YT.PlayerState.ENDED) {
+                    if (heroVideo.muted && !synth.speaking) {
+                        fadeAudio(bgMusic, 0.1);
+                    }
+                }
+            }
+
+            function fadeAudio(audioElement, targetVolume, duration = 500) {
+                // if audio is paused and target is > 0, play it first
+                if (audioElement.paused && targetVolume > 0) {
+                    audioElement.play().catch(e => console.error("Playback error:", e));
+                }
+                const startVolume = audioElement.volume;
+                const step = (targetVolume - startVolume) / (duration / 50);
+                let currentVolume = startVolume;
+                
+                const fade = setInterval(() => {
+                    currentVolume += step;
+                    if ((step > 0 && currentVolume >= targetVolume) || (step < 0 && currentVolume <= targetVolume)) {
+                        audioElement.volume = targetVolume;
+                        if (targetVolume === 0) {
+                            audioElement.pause();
+                        }
+                        clearInterval(fade);
+                    } else if (audioElement) { // Check if element still exists
+                        audioElement.volume = currentVolume;
+                    } else { // If element is gone, clear interval
+                         clearInterval(fade);
+                    }
+                }, 50);
+            }
+
+            // Hero Audio Button Logic
+            heroAudioBtn.addEventListener('click', () => {
+                heroVideo.muted = !heroVideo.muted;
+                updateHeroMicIcon();
+
+                if (!heroVideo.muted) { // If unmuted
+                    bgMusic.pause();
+                    if(youtubePlayer && typeof youtubePlayer.pauseVideo === 'function'){
+                        youtubePlayer.pauseVideo();
+                    }
+                    synth.cancel();
+                } else { // If muted
+                    if (youtubePlayer && typeof youtubePlayer.getPlayerState === 'function' && youtubePlayer.getPlayerState() !== YT.PlayerState.PLAYING && !synth.speaking) {
+                       bgMusic.play().catch(e => console.error("Playback error:", e));
+                    }
+                }
+            });
+            
+            function updateHeroMicIcon(){
+                 if (heroVideo.muted) {
+                    micOnIcon.classList.add('hidden');
+                    micOffIcon.classList.remove('hidden');
+                } else {
+                    micOffIcon.classList.add('hidden');
+                    micOnIcon.classList.remove('hidden');
+                }
+            }
+
+
+            // Text-to-Speech Button Logic
+            playButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const contentWrapper = button.closest('[data-speech-content]');
+                    const clone = contentWrapper.cloneNode(true);
+                    clone.querySelector('.play-audio-btn').remove(); 
+                    const textToSpeak = clone.textContent || clone.innerText;
+
+                    if (synth.speaking && currentlyPlayingButton === button) {
+                        synth.cancel();
+                        return;
+                    }
+                    
+                    if (synth.speaking) {
+                        synth.cancel();
+                    }
+
+                    heroVideo.muted = true;
+                    updateHeroMicIcon();
+                    if(youtubePlayer && typeof youtubePlayer.pauseVideo === 'function'){
+                        youtubePlayer.pauseVideo();
+                    }
+
+                    currentUtterance = new SpeechSynthesisUtterance(textToSpeak);
+                    
+                    currentUtterance.onstart = () => {
+                        playButtons.forEach(btn => btn.classList.remove('playing'));
+                        button.classList.add('playing');
+                        currentlyPlayingButton = button;
+                        fadeAudio(bgMusic, 0.02);
+                    };
+
+                    currentUtterance.onend = () => {
+                        button.classList.remove('playing');
+                        currentlyPlayingButton = null;
+                        if (heroVideo.muted && youtubePlayer.getPlayerState() !== YT.PlayerState.PLAYING) {
+                            fadeAudio(bgMusic, 0.1);
+                        }
+                    };
+                    
+                    currentUtterance.onerror = (event) => {
+                        console.error('SpeechSynthesisUtterance.onerror');
+                        button.classList.remove('playing');
+                        currentlyPlayingButton = null;
+                        fadeAudio(bgMusic, 0.1);
+                    };
+
+                    synth.speak(currentUtterance);
+                });
+            });
+            
+            // Ensure speech is stopped if user navigates away
+            window.addEventListener('beforeunload', () => {
+                if(synth.speaking) synth.cancel();
+            });
+
+            // --- Data Visualization Chart ---
+            const ctx = document.getElementById('realEstateChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['2024', '2033 (Projected)'],
+                    datasets: [{
+                        label: 'Market Value (in Billions USD)',
+                        data: [3.5, 19.4],
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(0, 242, 254, 0.4)'
+                        ],
+                        borderColor: [
+                            'rgb(75, 192, 192)',
+                            'rgb(0, 242, 254)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                             grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                             ticks: { color: '#e0e0e0', font: { family: "'Roboto Mono', monospace" } }
+                        },
+                        x: {
+                             grid: { display: false },
+                             ticks: { color: '#e0e0e0', font: { family: "'Roboto Mono', monospace" } }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    animation: {
+                        duration: 1500,
+                        easing: 'easeInOutQuart'
+                    }
+                }
+            });
+
+            // --- Enhanced Interactive Quiz ---
+            const quizContainer = document.getElementById('quiz-container');
+            const resultContainer = document.getElementById('quiz-result-container');
+            
+            const questions = [
+                {
+                    question: "According to PwC, how much could blockchain contribute to global GDP by 2030?",
+                    options: [
+                        { text: "$550 Billion", correct: false },
+                        { text: "$1.76 Trillion", correct: true },
+                        { text: "$41.45 Billion", correct: false }
+                    ]
+                },
+                {
+                    question: "Which innovation is primarily focused on solving the challenge of maintaining data confidentiality while allowing for verification?",
+                    options: [
+                        { text: "Modular Blockchains", correct: false },
+                        { text: "Asset Tokenization", correct: false },
+                        { text: "Zero-Knowledge Proofs", correct: true }
+                    ]
+                },
+                {
+                    question: "Which company uses blockchain to track mangoes from farm to shelf in 2.2 seconds?",
+                    options: [
+                        { text: "Ford", correct: false },
+                        { text: "Walmart", correct: true },
+                        { text: "BlackRock", correct: false }
+                    ]
+                },
+                {
+                    question: "What is the process of converting physical assets into blockchain-based tokens called?",
+                    options: [
+                        { text: "Cryptocurrency", correct: false },
+                        { text: "Tokenization", correct: true },
+                        { text: "Decentralization", correct: false }
+                    ]
+                },
+                {
+                    question: "A bank wants to reduce settlement times for cross-border payments. Which existing platform mentioned in the article would be a relevant case study?",
+                    options: [
+                        { text: "Polygon ID", correct: false },
+                        { text: "The EU's EBSI program", correct: false },
+                        { text: "RippleNet", correct: true }
+                    ]
+                },
+                {
+                    question: "By 2030, the Web3 market is projected to reach what value?",
+                    options: [
+                        { text: "$1.76 Trillion", correct: false },
+                        { text: "$15.57 Billion", correct: false },
+                        { text: "$41.45 Billion", correct: true }
+                    ]
+                },
+                {
+                    question: "The article discusses AI-Blockchain convergence. Which problem is this convergence best suited to solve?",
+                    options: [
+                        { text: "Reducing cryptocurrency transaction fees.", correct: false },
+                        { text: "Ensuring ethical sourcing of raw materials.", correct: false },
+                        { text: "Verifying the origin and integrity of data used to train AI models.", correct: true }
+                    ]
+                },
+                 {
+                    question: "BlackRock's BUIDL Fund raised over $240 million by tokenizing which type of asset?",
+                    options: [
+                        { text: "Gold", correct: false },
+                        { text: "Real Estate", correct: false },
+                        { text: "US Treasuries", correct: true }
+                    ]
+                },
+                {
+                    question: "Which sector is expected to claim 30-35% of the total blockchain market revenue?",
+                    options: [
+                        { text: "Healthcare", correct: false },
+                        { text: "Supply Chain Management", correct: false },
+                        { text: "Financial Services", correct: true }
+                    ]
+                },
+                {
+                    question: "Considering the 'Implementation Framework', what is the logical FIRST step for a company new to blockchain?",
+                    options: [
+                        { text: "Joining a large industry blockchain network immediately.", correct: false },
+                        { text: "Starting with small pilot projects to demonstrate value.", correct: true },
+                        { text: "Developing proprietary blockchain capabilities from scratch.", correct: false }
+                    ]
+                }
+            ];
+
+            let currentQuestionIndex = 0;
+            let userScore = 0;
+
+            function displayQuestion(index) {
+                const question = questions[index];
+                let optionsHtml = question.options.map((option, i) => `
+                    <label class="flex items-center p-4 rounded-lg bg-gray-800 border border-transparent hover:border-cyan-400 cursor-pointer transition">
+                        <input type="radio" name="quiz" value="${i}" class="form-radio h-5 w-5 text-cyan-400 bg-gray-700 border-gray-600 focus:ring-cyan-500">
+                        <span class="ml-4 text-gray-300">${option.text}</span>
+                    </label>
+                `).join('');
+
+                quizContainer.innerHTML = `
+                    <h3 class="text-2xl font-bold text-white text-center mb-2">Test Your Knowledge</h3>
+                    <p class="text-center text-sm font-mono text-gray-500 mb-6">Question ${index + 1} of ${questions.length}</p>
+                    <p class="text-lg text-cyan-300 mb-4 text-center">${question.question}</p>
+                    <div class="space-y-3">${optionsHtml}</div>
+                    <button id="next-question-btn" class="mt-6 w-full bg-cyan-500 text-black font-bold py-3 rounded-lg hover:bg-cyan-400 transition">
+                        ${index === questions.length - 1 ? 'Finish Quiz' : 'Next Question'}
+                    </button>
+                `;
+                
+                document.getElementById('next-question-btn').addEventListener('click', handleNextQuestion);
+            }
+
+            function handleNextQuestion() {
+                const selectedOption = document.querySelector('input[name="quiz"]:checked');
+                if (!selectedOption) {
+                    alert('Please select an answer!');
+                    return;
+                }
+
+                const answerIndex = parseInt(selectedOption.value);
+                if (questions[currentQuestionIndex].options[answerIndex].correct) {
+                    userScore++;
+                }
+
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    displayQuestion(currentQuestionIndex);
+                } else {
+                    showResults();
+                }
+            }
+
+            function showResults() {
+                quizContainer.classList.add('hidden');
+                resultContainer.classList.remove('hidden');
+                
+                let resultMessage = '';
+                let resultClass = '';
+                let premiumEffect = '';
+                const percentage = (userScore / questions.length) * 100;
+
+                if (percentage >= 90) {
+                    resultMessage = `
+                        <h2 class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-pink-400 to-cyan-300 mb-4">Stunning! You're a Blockchain Visionary!</h2>
+                        <p class="text-xl text-gray-300">Your deep understanding is truly impressive.</p>
+                    `;
+                    resultClass = 'result-excellent';
+                    for(let i=0; i < 10; i++) premiumEffect += `<div class="confetti" style="animation-delay: -${Math.random()*5}s;"></div>`;
+                } else if (percentage >= 60) {
+                    resultMessage = `
+                        <h2 class="text-3xl font-bold text-cyan-300 mb-4">Great Job!</h2>
+                        <p class="text-lg text-gray-300">You have a strong grasp of the key concepts.</p>
+                    `;
+                    resultClass = 'result-good';
+                } else {
+                    resultMessage = `
+                        <h2 class="text-3xl font-bold text-yellow-400 mb-4">Good Effort!</h2>
+                        <p class="text-lg text-gray-300">A quick review of the article will make you an expert. Why not give it another read?</p>
+                    `;
+                    resultClass = 'result-poor';
+                }
+
+                resultContainer.innerHTML = `
+                    ${premiumEffect}
+                    <div class="relative z-10">
+                        <p class="font-mono text-lg text-gray-400 mb-2">Your Final Score</p>
+                        <p class="text-7xl font-black text-white mb-6">${userScore} / ${questions.length}</p>
+                        ${resultMessage}
+                        <button id="retake-quiz-btn" class="mt-8 bg-cyan-500 text-black font-bold py-3 px-8 rounded-lg hover:bg-cyan-400 transition">Retake Quiz</button>
+                    </div>
+                `;
+                resultContainer.className = `p-8 rounded-2xl relative overflow-hidden ${resultClass}`;
+
+                document.getElementById('retake-quiz-btn').addEventListener('click', () => {
+                    currentQuestionIndex = 0;
+                    userScore = 0;
+                    resultContainer.classList.add('hidden');
+                    quizContainer.classList.remove('hidden');
+                    displayQuestion(currentQuestionIndex);
+                });
+            }
+
+            // Initial call to start the quiz
+            displayQuestion(currentQuestionIndex);
+
+            // --- Interactive Particle Background ---
+            const canvas = document.getElementById('particle-canvas');
+            const canvasCtx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            let particlesArray;
+            const mouse = { x: null, y: null, radius: (canvas.height / 120) * (canvas.width / 120) };
+            
+            window.addEventListener('mousemove', (event) => {
+                mouse.x = event.x;
+                mouse.y = event.y;
+            });
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                mouse.radius = (canvas.height / 120) * (canvas.width / 120);
+                initParticles();
+            });
+            window.addEventListener('mouseout', () => {
+                mouse.x = undefined;
+                mouse.y = undefined;
+            });
+
+            class Particle {
+                constructor(x, y, directionX, directionY, size, color) {
+                    this.x = x; this.y = y; this.directionX = directionX; this.directionY = directionY;
+                    this.size = size; this.color = color;
+                }
+                draw() {
+                    canvasCtx.beginPath();
+                    canvasCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                    canvasCtx.fillStyle = '#00f2fe';
+                    canvasCtx.fill();
+                }
+                update() {
+                    if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
+                    if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
+                    let dx = mouse.x - this.x;
+                    let dy = mouse.y - this.y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < mouse.radius + this.size) {
+                        if (mouse.x < this.x && this.x < canvas.width - this.size * 10) this.x += 5;
+                        if (mouse.x > this.x && this.x > this.size * 10) this.x -= 5;
+                        if (mouse.y < this.y && this.y < canvas.height - this.size * 10) this.y += 5;
+                        if (mouse.y > this.y && this.y > this.size * 10) this.y -= 5;
+                    }
+                    this.x += this.directionX;
+                    this.y += this.directionY;
+                    this.draw();
+                }
+            }
+            
+            function initParticles() {
+                particlesArray = [];
+                let numberOfParticles = (canvas.height * canvas.width) / 9000;
+                for (let i = 0; i < numberOfParticles; i++) {
+                    let size = (Math.random() * 2) + 0.5;
+                    let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+                    let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+                    let directionX = (Math.random() * 0.4) - 0.2;
+                    let directionY = (Math.random() * 0.4) - 0.2;
+                    let color = '#8C5523';
+                    particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+                }
+            }
+
+            function connectParticles() {
+                let opacityValue = 1;
+                for (let a = 0; a < particlesArray.length; a++) {
+                    for (let b = a; b < particlesArray.length; b++) {
+                        let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                        if (distance < (canvas.width / 7) * (canvas.height / 7)) {
+                            opacityValue = 1 - (distance / 20000);
+                            canvasCtx.strokeStyle = 'rgba(0, 242, 254,' + opacityValue + ')';
+                            canvasCtx.lineWidth = 0.5;
+                            canvasCtx.beginPath();
+                            canvasCtx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                            canvasCtx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                            canvasCtx.stroke();
+                        }
+                    }
+                }
+            }
+
+            function animateParticles() {
+                requestAnimationFrame(animateParticles);
+                canvasCtx.clearRect(0, 0, innerWidth, innerHeight);
+                for (let i = 0; i < particlesArray.length; i++) {
+                    particlesArray[i].update();
+                }
+                connectParticles();
+            }
+            
+            initParticles();
+            animateParticles();
+
+        });
+    </script>
+</body>
+</html>
+
